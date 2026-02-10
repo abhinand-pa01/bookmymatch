@@ -1,0 +1,298 @@
+   :root {
+    --primary-color: #007bff;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --dark-color: #343a40;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.btn,
+.nav-link {
+    min-height: 44px; /* touch safe */
+}
+
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.75rem; }
+.display-4 { font-size: 2.5rem; }
+
+/*navbar*/
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    min-width: 220px;
+}
+
+.dropdown-header {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s, padding-left 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    padding-left: 1.25rem;
+}
+
+.dropdown-item i {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+}
+
+/* Team Logos */
+.team-logo,
+.team-logo-large {
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+}
+
+.team-logo {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+}
+
+.team-logo-large {
+    width: 80px;
+    height: 80px;
+    padding: 8px;
+    border-width: 3px;
+}
+
+/* Placeholders */
+.team-logo-placeholder,
+.team-logo-placeholder-large {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f0f0;
+    color: #999;
+    border: 2px solid #e0e0e0;
+}
+
+.team-logo-placeholder {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+}
+
+.team-logo-placeholder-large {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+}
+
+/* Match Cards */
+.match-card {
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.match-stadium-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Ticket Section */
+.ticket-section-card {
+    transition: transform 0.2s ease;
+}
+
+.ticket-section-card:hover {
+    transform: translateY(-3px);
+}
+
+.ticket-card {
+    border: 2px solid var(--primary-color);
+}
+
+/* Forms*/
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+/* Buttons */
+.btn {
+    transition: box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Cards & Shadows */
+.card {
+    border-radius: 10px;
+}
+
+.bmm-shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+}
+
+.bmm-shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.bmm-shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175);
+}
+
+/*Badges */
+.badge {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+/*Alerts*/
+.alert {
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.alert-success { border-left-color: var(--success-color); }
+.alert-danger { border-left-color: var(--danger-color); }
+.alert-info { border-left-color: var(--primary-color); }
+
+/* =====================
+   Tables
+   ===================== */
+.table-responsive {
+    border-radius: 8px;
+}
+
+/* =====================
+   Image Preview
+   ===================== */
+.image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* =====================
+   Footer
+   ===================== */
+.footer {
+    margin-top: auto;
+}
+
+/* =====================
+   Print
+   ===================== */
+@media print {
+    .navbar,
+    .footer,
+    .btn,
+    .card-footer {
+        display: none !important;
+    }
+
+    .ticket-card {
+        border: 3px solid #000;
+        box-shadow: none;
+    }
+}
+
+/* =========================================================
+   Tablet Down (≤ 991px)
+   ========================================================= */
+@media (max-width: 991px) {
+
+    h1 { font-size: 1.85rem; }
+    h2 { font-size: 1.6rem; }
+    .display-4 { font-size: 2.2rem; }
+
+    .team-logo {
+        width: 55px;
+        height: 55px;
+    }
+
+    .team-logo-large {
+        width: 70px;
+        height: 70px;
+    }
+
+    .match-stadium-img {
+        height: 170px;
+    }
+}
+
+/* Mobile (≤ 767px) */
+@media (max-width: 767px) {
+
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.4rem; }
+    .display-4 { font-size: 1.9rem; }
+
+    /* iOS zoom prevention */
+    input,
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+
+    .d-flex.gap-3 {
+        flex-direction: column;
+    }
+
+    .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+
+    .team-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .team-logo-large {
+        width: 60px;
+        height: 60px;
+    }
+
+    .match-stadium-img {
+        height: 140px;
+    }
+
+    /* Disable hover illusions on touch */
+    .match-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+

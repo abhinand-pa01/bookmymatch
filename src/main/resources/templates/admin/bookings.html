@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+    <main class="flex-grow-1 bg-light">
+        <div class="container py-5">
+            <h1 class="mb-4"><i class="bi bi-list-check text-primary"></i> All Bookings</h1>
+            <div class="card shadow"><div class="card-body"><div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr><th>Booking Code</th><th>User</th><th>Match</th><th>Section</th><th>Tickets</th><th>Amount</th><th>Status</th><th>Date</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="booking : ${bookings}">
+                            <td><code th:text="${booking.bookingCode}">CODE</code></td>
+                            <td th:text="${booking.user.fullName}">User</td>
+                            <td><small th:text="${booking.match.homeTeam.name + ' vs ' + booking.match.awayTeam.name}">Match</small></td>
+                            <td th:text="${booking.ticketSection.sectionName}">Section</td>
+                            <td th:text="${booking.numberOfTickets}">1</td>
+                            <td>₹<span th:text="${booking.totalPrice}">0</span></td>
+                            <td><span class="badge" th:classappend="${booking.status.name() == 'CONFIRMED'} ? 'bg-success' : 'bg-danger'" 
+                                      th:text="${booking.status}">Status</span></td>
+                            <td><small th:text="${#temporals.format(booking.bookedAt, 'dd MMM yyyy')}">Date</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div></div></div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

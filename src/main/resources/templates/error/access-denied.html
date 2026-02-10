@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+    <main class="flex-grow-1 bg-light d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <i class="bi bi-exclamation-triangle text-danger" style="font-size: 5rem;"></i>
+                    <h1 class="mt-4">Access Denied</h1>
+                    <p class="text-muted mb-4">You don't have permission to access this resource.</p>
+                    <a th:href="@{/matches}" class="btn btn-primary">Go to Matches</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

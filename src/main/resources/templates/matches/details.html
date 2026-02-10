@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+    
+    <main class="flex-grow-1 bg-light">
+        <div class="container py-5">
+            <!-- Match Header -->
+            <div class="card shadow-lg mb-4">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img th:if="${match.stadium.imageUrl}" 
+                             th:src="@{${match.stadium.imageUrl}}" 
+                             class="img-fluid rounded-start h-100 object-fit-cover" 
+                             th:alt="${match.stadium.name}">
+                        <div th:unless="${match.stadium.imageUrl}" 
+                             class="bg-secondary d-flex align-items-center justify-content-center h-100">
+                            <i class="bi bi-building text-white" style="font-size: 5rem;"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body p-4">
+                            <span class="badge bg-primary mb-3" th:text="${match.competition}">Competition</span>
+                            
+                            <!-- Teams Display -->
+                            <div class="row align-items-center mb-4">
+                                <div class="col-5 text-center">
+                                    <img th:if="${match.homeTeam.logoUrl}" 
+                                         th:src="@{${match.homeTeam.logoUrl}}" 
+                                         class="team-logo-large mb-2" 
+                                         th:alt="${match.homeTeam.name}">
+                                    <div th:unless="${match.homeTeam.logoUrl}" 
+                                         class="team-logo-placeholder-large mb-2">
+                                        <i class="bi bi-shield-fill"></i>
+                                    </div>
+                                    <h3 class="mb-0" th:text="${match.homeTeam.name}">Home Team</h3>
+                                    <small class="text-muted" th:text="${match.homeTeam.city}">City</small>
+                                </div>
+                                
+                                <div class="col-2 text-center">
+                                    <h2 class="text-muted mb-0">VS</h2>
+                                </div>
+                                
+                                <div class="col-5 text-center">
+                                    <img th:if="${match.awayTeam.logoUrl}" 
+                                         th:src="@{${match.awayTeam.logoUrl}}" 
+                                         class="team-logo-large mb-2" 
+                                         th:alt="${match.awayTeam.name}">
+                                    <div th:unless="${match.awayTeam.logoUrl}" 
+                                         class="team-logo-placeholder-large mb-2">
+                                        <i class="bi bi-shield-fill"></i>
+                                    </div>
+                                    <h3 class="mb-0" th:text="${match.awayTeam.name}">Away Team</h3>
+                                    <small class="text-muted" th:text="${match.awayTeam.city}">City</small>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            
+                            <!-- Match Info -->
+                            <div class="row text-center mb-3">
+                                <div class="col-md-4">
+                                    <h5><i class="bi bi-geo-alt-fill text-primary"></i> Venue</h5>
+                                    <p class="mb-0" th:text="${match.stadium.name}">Stadium</p>
+                                    <small class="text-muted" th:text="${match.stadium.city + ', ' + match.stadium.country}">Location</small>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5><i class="bi bi-calendar3 text-primary"></i> Date</h5>
+                                    <p class="mb-0" th:text="${#temporals.format(match.matchDateTime, 'dd MMM yyyy')}">Date</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5><i class="bi bi-clock-fill text-primary"></i> Time</h5>
+                                    <p class="mb-0" th:text="${#temporals.format(match.matchDateTime, 'hh:mm a')}">Time</p>
+                                </div>
+                            </div>
+                            
+                            <div th:if="${match.description}" class="alert alert-info mb-0">
+                                <i class="bi bi-info-circle"></i>
+                                <span th:text="${match.description}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Error/Success Messages -->
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            
+            <!-- Ticket Sections -->
+            <h3 class="mb-4"><i class="bi bi-ticket-perforated text-primary"></i> Available Tickets</h3>
+            
+            <div th:if="${#lists.isEmpty(ticketSections)}" class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle"></i>
+                No ticket sections available for this match yet.
+            </div>
+            
+            <div class="row">
+                <div th:each="section : ${ticketSections}" class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm ticket-section-card" 
+                         th:classappend="${section.soldOut} ? 'border-danger' : 'border-success'">
+                        <div class="card-header" 
+                             th:classappend="${section.soldOut} ? 'bg-danger text-white' : 'bg-success text-white'">
+                            <h5 class="mb-0">
+                                <i class="bi bi-door-open"></i>
+                                <span th:text="${section.sectionName}">Section Name</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h2 class="text-primary mb-0">
+                                    ₹<span th:text="${#numbers.formatDecimal(section.pricePerTicket, 0, 2)}">0.00</span>
+                                </h2>
+                                <small class="text-muted">per ticket</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Available Seats</span>
+                                    <strong th:text="${section.availableSeats}">0</strong>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar" 
+                                         th:classappend="${section.soldOut} ? 'bg-danger' : 'bg-success'"
+                                         th:style="'width: ' + ${section.availableSeats * 100.0 / section.totalSeats} + '%'"></div>
+                                </div>
+                                <small class="text-muted">
+                                    <span th:text="${section.bookedSeats}">0</span> / 
+                                    <span th:text="${section.totalSeats}">0</span> booked
+                                </small>
+                            </div>
+                            
+                            <div th:if="${section.description}" class="mb-3">
+                                <small class="text-muted" th:text="${section.description}"></small>
+                            </div>
+                            
+                            <div th:if="${section.soldOut}">
+                                <button class="btn btn-danger w-100" disabled>
+                                    <i class="bi bi-x-circle"></i> SOLD OUT
+                                </button>
+                            </div>
+                            
+                            <form th:unless="${section.soldOut}" 
+                                  th:action="@{/booking/create}" 
+                                  method="post" 
+                                  onsubmit="return validateBooking(this)">
+                                <input type="hidden" name="matchId" th:value="${match.id}">
+                                <input type="hidden" name="ticketSectionId" th:value="${section.id}">
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Number of Tickets</label>
+                                    <select class="form-select" name="numberOfTickets" required>
+                                        <option value="">Select...</option>
+                                        <option th:each="i : ${#numbers.sequence(1, T(java.lang.Math).min(section.availableSeats, 10))}" 
+                                                th:value="${i}" 
+                                                th:text="${i}"></option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-cart-check"></i> Book Now
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    
+    <script>
+        function validateBooking(form) {
+            const tickets = form.querySelector('[name="numberOfTickets"]').value;
+            if (!tickets || tickets <= 0) {
+                alert('Please select number of tickets');
+                return false;
+            }
+            return confirm(`Are you sure you want to book ${tickets} ticket(s)?`);
+        }
+    </script>
+</body>
+</html>

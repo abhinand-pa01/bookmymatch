@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+    <nav th:replace="~{fragments/header :: navbar}"></nav>
+    
+    <main class="flex-grow-1">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    
+                    <!-- Success Message -->
+                    <div class="card shadow-lg border-success">
+                        <div class="card-header bg-success text-white text-center py-4">
+                            <i class="bi bi-check-circle-fill" style="font-size: 4rem;"></i>
+                            <h3 class="mt-3 mb-0">Payment Successful!</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="alert alert-success">
+                                <h5><i class="bi bi-check-circle"></i> Your booking is confirmed!</h5>
+                                <p class="mb-0">
+                                    Thank you for your payment. Your tickets have been booked successfully.
+                                </p>
+                            </div>
+                            
+                            <h6 class="text-muted mt-4">Booking Details</h6>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td class="text-muted">Booking Code:</td>
+                                    <td class="text-end"><strong th:text="${booking.bookingCode}">CODE</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Match:</td>
+                                    <td class="text-end">
+                                        <strong th:text="${booking.match.homeTeam.name}">Home</strong> vs
+                                        <strong th:text="${booking.match.awayTeam.name}">Away</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Tickets:</td>
+                                    <td class="text-end"><strong th:text="${booking.numberOfTickets}">0</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Paid:</td>
+                                    <td class="text-end"><strong class="text-success">₹<span th:text="${booking.totalPrice}">0</span></strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Payment Status:</td>
+                                    <td class="text-end"><span class="badge bg-success">Completed</span></td>
+                                </tr>
+                            </table>
+                            
+                            <div class="d-grid gap-2 mt-4">
+                                <a th:href="@{/booking/ticket/{code}(code=${booking.bookingCode})}" 
+                                   class="btn btn-primary btn-lg">
+                                    <i class="bi bi-ticket-perforated"></i> View E-Ticket
+                                </a>
+                                <a th:href="@{/booking/my-tickets}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-list"></i> View All My Tickets
+                                </a>
+                                <a th:href="@{/matches}" class="btn btn-outline-primary">
+                                    <i class="bi bi-calendar-event"></i> Browse More Matches
+                                </a>
+                            </div>
+                            
+                            <div class="alert alert-info mt-4 mb-0">
+                                <small>
+                                    <i class="bi bi-envelope"></i>
+                                    A confirmation email has been sent to your registered email address.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Demo Mode Notice -->
+                    <div class="card mt-3 border-warning">
+                        <div class="card-body bg-warning bg-opacity-10">
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Demo Mode:</strong> This was a test payment. No real money was charged.
+                            </small>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    
+    <script>
+        // Auto-scroll to top
+        window.scrollTo(0, 0);
+        
+        // Confetti effect (optional)
+        setTimeout(function() {
+            // Could add confetti library here for celebration effect
+            console.log('🎉 Payment successful!');
+        }, 100);
+    </script>
+</body>
+</html>
