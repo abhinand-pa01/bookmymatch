@@ -1,0 +1,16 @@
+# Maven build output
+target/
+
+# Git
+.git
+.gitignore
+
+# Local environment / secrets
+.env
+
+# IDE files
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
