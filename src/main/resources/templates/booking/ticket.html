@@ -2,156 +2,174 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head}"></head>
 <body class="d-flex flex-column min-vh-100">
-    <nav th:replace="~{fragments/header :: navbar}"></nav>
-    
-    <main class="flex-grow-1 bg-light">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <!-- Success Message -->
-                    <div class="alert alert-success text-center mb-4">
-                        <i class="bi bi-check-circle-fill" style="font-size: 3rem;"></i>
-                        <h3 class="mt-3">Booking Confirmed!</h3>
-                        <p class="mb-0">Your tickets have been booked successfully</p>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="flex-grow-1">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+
+                <!-- E-Ticket Card -->
+                <div class="card shadow-lg border-primary" id="e-ticket">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h3><i class="bi bi-ticket-perforated-fill"></i> E-TICKET</h3>
                     </div>
-                    
-                    <!-- E-Ticket Card -->
-                    <div class="card shadow-lg ticket-card">
-                        <div class="card-header bg-primary text-white text-center py-3">
-                            <h4 class="mb-0"><i class="bi bi-ticket-perforated-fill"></i> E-TICKET</h4>
+
+                    <div class="card-body p-4">
+                        <!-- Booking Code -->
+                        <div class="text-center mb-4 p-3 bg-light rounded">
+                            <h6 class="text-muted mb-2">BOOKING CODE</h6>
+                            <h4 class="text-primary mb-0" th:text="${booking.bookingCode}">BOOKING-CODE</h4>
                         </div>
-                        
-                        <div class="card-body p-4">
-                            <!-- Booking Code -->
-                            <div class="text-center mb-4 p-3 bg-light rounded">
-                                <small class="text-muted d-block mb-2">BOOKING CODE</small>
-                                <h2 class="mb-0 font-monospace text-primary" th:text="${booking.bookingCode}">BOOKING-CODE</h2>
-                            </div>
-                            
-                            <!-- Match Details -->
-                            <div class="mb-4">
-                                <h5 class="border-bottom pb-2 mb-3">Match Details</h5>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-6 text-center">
-                                        <img th:if="${booking.match.homeTeam.logoUrl}" 
-                                             th:src="@{${booking.match.homeTeam.logoUrl}}" 
-                                             class="team-logo mb-2" 
-                                             th:alt="${booking.match.homeTeam.name}">
-                                        <h6 th:text="${booking.match.homeTeam.name}">Home Team</h6>
-                                    </div>
-                                    <div class="col-6 text-center">
-                                        <img th:if="${booking.match.awayTeam.logoUrl}" 
-                                             th:src="@{${booking.match.awayTeam.logoUrl}}" 
-                                             class="team-logo mb-2" 
-                                             th:alt="${booking.match.awayTeam.name}">
-                                        <h6 th:text="${booking.match.awayTeam.name}">Away Team</h6>
-                                    </div>
+
+                        <!-- Match Details -->
+                        <h5 class="mb-3">Match Details</h5>
+
+                        <!-- Team Logos with SHORT NAMES -->
+                        <div class="d-flex align-items-center justify-content-center mb-4 p-3 border rounded">
+                            <!-- Home Team -->
+                            <div class="text-center flex-fill">
+                                <img th:if="${booking.match.homeTeam.logoUrl}"
+                                     th:src="@{${booking.match.homeTeam.logoUrl}}"
+                                     class="team-logo mb-2"
+                                     th:alt="${booking.match.homeTeam.name}"
+                                     style="width: 80px; height: 80px;"
+                                     loading="lazy">
+                                <div th:unless="${booking.match.homeTeam.logoUrl}"
+                                     class="team-logo-placeholder mb-2"
+                                     style="width: 80px; height: 80px; font-size: 2rem;">
+                                    <i class="bi bi-shield-fill"></i>
                                 </div>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="d-flex">
-                                            <i class="bi bi-building text-primary me-2"></i>
-                                            <div>
-                                                <small class="text-muted d-block">Stadium</small>
-                                                <strong th:text="${booking.match.stadium.name}">Stadium</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="d-flex">
-                                            <i class="bi bi-geo-alt text-primary me-2"></i>
-                                            <div>
-                                                <small class="text-muted d-block">Location</small>
-                                                <strong th:text="${booking.match.stadium.city}">City</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="d-flex">
-                                            <i class="bi bi-calendar3 text-primary me-2"></i>
-                                            <div>
-                                                <small class="text-muted d-block">Date</small>
-                                                <strong th:text="${#temporals.format(booking.match.matchDateTime, 'EEEE, dd MMMM yyyy')}">Date</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="d-flex">
-                                            <i class="bi bi-clock text-primary me-2"></i>
-                                            <div>
-                                                <small class="text-muted d-block">Time</small>
-                                                <strong th:text="${#temporals.format(booking.match.matchDateTime, 'hh:mm a')}">Time</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- SHORT NAME -->
+                                <h6 class="mb-0 fw-bold" th:text="${booking.match.homeTeam.shortName}">HOM</h6>
+                                <!-- Full name in small text -->
+                                <small class="text-muted" th:text="${booking.match.homeTeam.name}">Home Team</small>
                             </div>
-                            
-                            <!-- Ticket Details -->
-                            <div class="mb-4">
-                                <h5 class="border-bottom pb-2 mb-3">Ticket Details</h5>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <small class="text-muted d-block">Customer Name</small>
-                                        <strong th:text="${booking.user.fullName}">Full Name</strong>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small class="text-muted d-block">Section</small>
-                                        <strong th:text="${booking.ticketSection.sectionName}">Section</strong>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small class="text-muted d-block">Number of Tickets</small>
-                                        <strong th:text="${booking.numberOfTickets}">1</strong>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <small class="text-muted d-block">Total Amount</small>
-                                        <strong class="text-success">
-                                            ₹<span th:text="${#numbers.formatDecimal(booking.totalPrice, 0, 2)}">0.00</span>
-                                        </strong>
-                                    </div>
-                                </div>
+
+                            <div class="px-4">
+                                <h3 class="mb-0 text-muted">VS</h3>
                             </div>
-                            
-                            <!-- Booking Info -->
-                            <div class="alert alert-info mb-0">
-                                <small>
-                                    <i class="bi bi-info-circle"></i>
-                                    <strong>Booked on:</strong> 
-                                    <span th:text="${#temporals.format(booking.bookedAt, 'dd MMM yyyy, hh:mm a')}">Date</span>
-                                </small>
+
+                            <!-- Away Team -->
+                            <div class="text-center flex-fill">
+                                <img th:if="${booking.match.awayTeam.logoUrl}"
+                                     th:src="@{${booking.match.awayTeam.logoUrl}}"
+                                     class="team-logo mb-2"
+                                     th:alt="${booking.match.awayTeam.name}"
+                                     style="width: 80px; height: 80px;"
+                                     loading="lazy">
+                                <div th:unless="${booking.match.awayTeam.logoUrl}"
+                                     class="team-logo-placeholder mb-2"
+                                     style="width: 80px; height: 80px; font-size: 2rem;">
+                                    <i class="bi bi-shield-fill"></i>
+                                </div>
+                                <!-- SHORT NAME -->
+                                <h6 class="mb-0 fw-bold" th:text="${booking.match.awayTeam.shortName}">AWY</h6>
+                                <!-- Full name in small text -->
+                                <small class="text-muted" th:text="${booking.match.awayTeam.name}">Away Team</small>
                             </div>
                         </div>
-                        
-                        <div class="card-footer bg-light text-center py-3">
-                            <button onclick="window.print()" class="btn btn-outline-primary me-2">
+
+                        <!-- Stadium & Location -->
+                        <div class="mb-3 p-3 bg-light rounded">
+                            <p class="mb-2">
+                                <i class="bi bi-building text-primary"></i>
+                                <strong>Stadium</strong><br>
+                                <span th:text="${booking.match.stadium.name}">Stadium Name</span>
+                            </p>
+                            <p class="mb-0">
+                                <i class="bi bi-geo-alt-fill text-primary"></i>
+                                <strong>Location</strong><br>
+                                <span th:text="${booking.match.stadium.city}">City</span>
+                            </p>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div class="mb-3">
+                            <p class="mb-2">
+                                <i class="bi bi-calendar3 text-primary"></i>
+                                <strong>Date</strong><br>
+                                <span th:text="${#temporals.format(booking.match.matchDateTime, 'EEEE, dd MMMM yyyy')}">Date</span>
+                            </p>
+                            <p class="mb-0">
+                                <i class="bi bi-clock-fill text-primary"></i>
+                                <strong>Time</strong><br>
+                                <span th:text="${#temporals.format(booking.match.matchDateTime, 'hh:mm a')}">Time</span>
+                            </p>
+                        </div>
+
+                        <hr>
+
+                        <!-- Ticket Details -->
+                        <h5 class="mb-3">Ticket Details</h5>
+
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>Customer Name:</td>
+                                <td class="text-end"><strong th:text="${booking.user.fullName}">Name</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Section:</td>
+                                <td class="text-end"><strong th:text="${booking.ticketSection.sectionName}">Section</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Number of Tickets:</td>
+                                <td class="text-end"><strong th:text="${booking.numberOfTickets}">0</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Price per Ticket:</td>
+                                <td class="text-end">₹<span th:text="${booking.ticketSection.pricePerTicket}">0</span></td>
+                            </tr>
+                            <tr class="border-top">
+                                <td><strong>Total Amount:</strong></td>
+                                <td class="text-end"><h5 class="text-success mb-0">₹<span th:text="${booking.totalPrice}">0</span></h5></td>
+                            </tr>
+                        </table>
+
+                        <!-- QR Code -->
+                        <div class="text-center my-4">
+                            <img th:src="@{https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={code}(code=${booking.bookingCode})}"
+                                 alt="QR Code"
+                                 class="img-fluid">
+                            <p class="text-muted small mt-2">Scan this QR code at the venue</p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2">
+                            <button onclick="window.print()" class="btn btn-primary">
                                 <i class="bi bi-printer"></i> Print Ticket
                             </button>
-                            <a th:href="@{/booking/my-tickets}" class="btn btn-primary">
-                                <i class="bi bi-list-ul"></i> View All Tickets
+                            <a th:href="@{/booking/my-tickets}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to My Tickets
                             </a>
                         </div>
                     </div>
-                    
-                    <!-- Instructions -->
-                    <div class="card mt-4">
-                        <div class="card-body">
-                            <h6><i class="bi bi-exclamation-circle text-warning"></i> Important Instructions</h6>
-                            <ul class="mb-0 small">
-                                <li>Please carry a printed copy or digital version of this e-ticket</li>
-                                <li>Bring a valid photo ID for verification at the stadium</li>
-                                <li>Arrive at least 1 hour before the match starts</li>
-                                <li>Follow stadium rules and regulations</li>
-                            </ul>
-                        </div>
+
+                    <!-- Footer -->
+                    <div class="card-footer text-center text-muted small">
+                        <p class="mb-0">Please bring a valid ID to the venue</p>
+                        <p class="mb-0">Booking Code: <strong th:text="${booking.bookingCode}">CODE</strong></p>
                     </div>
                 </div>
+
             </div>
         </div>
-    </main>
-    
-    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<!-- Print Styles -->
+<style>
+    @media print {
+        nav, footer, .btn {
+            display: none !important;
+        }
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+</style>
 </body>
 </html>

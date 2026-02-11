@@ -2,100 +2,107 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head}"></head>
 <body class="d-flex flex-column min-vh-100">
-    <nav th:replace="~{fragments/header :: navbar}"></nav>
-    
-    <main class="flex-grow-1 bg-light">
-        <div class="container py-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1><i class="bi bi-calendar-event text-primary"></i> Upcoming Matches</h1>
-            </div>
-            
-            <div th:if="${#lists.isEmpty(matches)}" class="alert alert-info">
-                <i class="bi bi-info-circle"></i>
-                No upcoming matches available at the moment. Please check back later!
-            </div>
-            
-            <div class="row">
-                <div th:each="match : ${matches}" class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm match-card">
-                        <!-- Stadium Image -->
-                        <div class="position-relative">
-                            <img th:if="${match.stadium.imageUrl}" 
-                                 th:src="@{${match.stadium.imageUrl}}" 
-                                 class="card-img-top match-stadium-img" 
-                                 th:alt="${match.stadium.name}">
-                            <div th:unless="${match.stadium.imageUrl}" 
-                                 class="card-img-top bg-secondary d-flex align-items-center justify-content-center" 
-                                 style="height: 200px;">
-                                <i class="bi bi-building text-white" style="font-size: 3rem;"></i>
-                            </div>
-                            <div class="position-absolute top-0 end-0 m-2">
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="flex-grow-1 bg-light">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-calendar-event text-primary"></i> Upcoming Matches</h1>
+        </div>
+
+        <div th:if="${#lists.isEmpty(matches)}" class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            No upcoming matches available at the moment. Please check back later!
+        </div>
+
+        <div class="row">
+            <div th:each="match : ${matches}" class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm match-card">
+                    <!-- Stadium Image -->
+                    <div class="position-relative">
+                        <img th:if="${match.stadium.imageUrl}"
+                             th:src="@{${match.stadium.imageUrl}}"
+                             class="card-img-top match-stadium-img"
+                             th:alt="${match.stadium.name}"
+                             loading="lazy">
+                        <div th:unless="${match.stadium.imageUrl}"
+                             class="card-img-top bg-secondary d-flex align-items-center justify-content-center"
+                             style="height: 200px;">
+                            <i class="bi bi-building text-white" style="font-size: 3rem;"></i>
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-2">
                                 <span class="badge bg-primary">
                                     <span th:text="${match.competition}">Premier League</span>
                                 </span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Teams - SHORT NAMES EVERYWHERE -->
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <!-- Home Team -->
+                            <div class="text-center flex-fill">
+                                <img th:if="${match.homeTeam.logoUrl}"
+                                     th:src="@{${match.homeTeam.logoUrl}}"
+                                     class="team-logo mb-2"
+                                     th:alt="${match.homeTeam.name}"
+                                     loading="lazy">
+                                <div th:unless="${match.homeTeam.logoUrl}"
+                                     class="team-logo-placeholder mb-2">
+                                    <i class="bi bi-shield-fill"></i>
+                                </div>
+                                <!-- SHORT NAME for all screens -->
+                                <h6 class="mb-0 fw-bold" th:text="${match.homeTeam.shortName}">HOM</h6>
+                            </div>
+
+                            <div class="text-center px-3">
+                                <h4 class="mb-0 text-muted">VS</h4>
+                            </div>
+
+                            <!-- Away Team -->
+                            <div class="text-center flex-fill">
+                                <img th:if="${match.awayTeam.logoUrl}"
+                                     th:src="@{${match.awayTeam.logoUrl}}"
+                                     class="team-logo mb-2"
+                                     th:alt="${match.awayTeam.name}"
+                                     loading="lazy">
+                                <div th:unless="${match.awayTeam.logoUrl}"
+                                     class="team-logo-placeholder mb-2">
+                                    <i class="bi bi-shield-fill"></i>
+                                </div>
+                                <!-- SHORT NAME for all screens -->
+                                <h6 class="mb-0 fw-bold" th:text="${match.awayTeam.shortName}">AWY</h6>
                             </div>
                         </div>
-                        
-                        <div class="card-body">
-                            <!-- Teams -->
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <div class="text-center flex-fill">
-                                    <img th:if="${match.homeTeam.logoUrl}" 
-                                         th:src="@{${match.homeTeam.logoUrl}}" 
-                                         class="team-logo mb-2" 
-                                         th:alt="${match.homeTeam.name}">
-                                    <div th:unless="${match.homeTeam.logoUrl}" 
-                                         class="team-logo-placeholder mb-2">
-                                        <i class="bi bi-shield-fill"></i>
-                                    </div>
-                                    <h6 class="mb-0 fw-bold" th:text="${match.homeTeam.name}">Home Team</h6>
-                                </div>
-                                
-                                <div class="text-center px-3">
-                                    <h4 class="mb-0 text-muted">VS</h4>
-                                </div>
-                                
-                                <div class="text-center flex-fill">
-                                    <img th:if="${match.awayTeam.logoUrl}" 
-                                         th:src="@{${match.awayTeam.logoUrl}}" 
-                                         class="team-logo mb-2" 
-                                         th:alt="${match.awayTeam.name}">
-                                    <div th:unless="${match.awayTeam.logoUrl}" 
-                                         class="team-logo-placeholder mb-2">
-                                        <i class="bi bi-shield-fill"></i>
-                                    </div>
-                                    <h6 class="mb-0 fw-bold" th:text="${match.awayTeam.name}">Away Team</h6>
-                                </div>
-                            </div>
-                            
-                            <hr>
-                            
-                            <!-- Match Details -->
-                            <div class="match-details">
-                                <p class="mb-2">
-                                    <i class="bi bi-geo-alt-fill text-primary"></i>
-                                    <strong th:text="${match.stadium.name}">Stadium</strong>
-                                </p>
-                                <p class="mb-2">
-                                    <i class="bi bi-calendar3 text-primary"></i>
-                                    <span th:text="${#temporals.format(match.matchDateTime, 'EEEE, dd MMMM yyyy')}">Date</span>
-                                </p>
-                                <p class="mb-3">
-                                    <i class="bi bi-clock-fill text-primary"></i>
-                                    <span th:text="${#temporals.format(match.matchDateTime, 'hh:mm a')}">Time</span>
-                                </p>
-                            </div>
-                            
-                            <a th:href="@{/matches/{id}(id=${match.id})}" class="btn btn-primary w-100">
-                                <i class="bi bi-ticket-perforated"></i> Book Tickets
-                            </a>
+
+                        <hr>
+
+                        <!-- Match Details -->
+                        <div class="match-details">
+                            <p class="mb-2">
+                                <i class="bi bi-geo-alt-fill text-primary"></i>
+                                <strong th:text="${match.stadium.name}">Stadium</strong>
+                            </p>
+                            <p class="mb-2">
+                                <i class="bi bi-calendar3 text-primary"></i>
+                                <span th:text="${#temporals.format(match.matchDateTime, 'EEEE, dd MMMM yyyy')}">Date</span>
+                            </p>
+                            <p class="mb-3">
+                                <i class="bi bi-clock-fill text-primary"></i>
+                                <span th:text="${#temporals.format(match.matchDateTime, 'hh:mm a')}">Time</span>
+                            </p>
                         </div>
+
+                        <a th:href="@{/matches/{id}(id=${match.id})}" class="btn btn-primary w-100">
+                            <i class="bi bi-ticket-perforated"></i> Book Tickets
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-    
-    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

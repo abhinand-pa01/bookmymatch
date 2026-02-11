@@ -17,13 +17,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .toUri()
                 .toString();
 
-        // Serve uploaded files with better caching and mobile support
+        // Serve uploaded files
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(uploadPath, "classpath:/static/uploads/")
                 .setCachePeriod(3600)
                 .resourceChain(true);
 
-        // Also serve static resources explicitly
+
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/")
                 .setCachePeriod(3600);
